@@ -13,8 +13,10 @@ class CamaleonCms::FrontendController < CamaleonCms::CamaleonController
     if @_site_options[:home_page].present?
       render_post(@_site_options[:home_page].to_i)
     else
-      r = {layout: nil, render: "index"}; hooks_run("on_render_index", r)
-      render r[:render], (!r[:layout].nil? ? {layout: r[:layout]} : {})
+      # jump to /post
+      params[:post_type_slug] = 'post'
+      params[:post_type_id] = CamaleonCms::PostType.find_by(slug: 'post').id
+      post_type
     end
   end
 
